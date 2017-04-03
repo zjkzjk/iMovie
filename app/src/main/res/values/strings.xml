@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">IMovie</string>
+    <string name="setting">Settings</string>
+    <string name="refresh">Refresh</string>
+    <string name="pref_units_label">Sort by</string>
+
+    <!-- Label for metric option in temperature unit preference [CHAR LIMIT=25] -->
+    <string name="pref_units_label_popular">The most popular</string>
+
+    <!-- Label for imperial option in temperature unit preference [CHAR LIMIT=25] -->
+    <string name="pref_units_label_highest">Evaluation of the highest</string>
+
+    <!-- Key name for temperature unit preference in SharedPreferences [CHAR LIMIT=NONE] -->
+    <string name="pref_units_key" translatable="false">sort</string>
+
+    <!-- Value in SharedPreferences for metric temperature unit option [CHAR LIMIT=NONE] -->
+    <string name="pref_units_popular" translatable="false">popular</string>
+
+    <!-- Value in SharedPreferences for imperial temperature unit option [CHAR LIMIT=NONE] -->
+    <string name="pref_units_highest" translatable="false">highest</string>
+
+    <string name="title_activity_setting">Setting</string>
+
+    <string name="title_activity_detail">Detail</string>
+
+</resources>
