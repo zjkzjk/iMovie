@@ -1,6 +1,7 @@
 package com.example.zzzzzzzjk.imovie;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +18,20 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     List<Movie> movieList;
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item,parent,false);
+    public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item,parent,false);
         final ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.movieView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 Movie movie = movieList.get(position);
-                Intent intent
+                Intent intent = new Intent(view.getContext(),DetailActivity.class);
+                intent.putExtra("name",movie.getName());
+                Bundle bundle = new Bundle();
+                bundle.putInt("imgId",movie.getImgId());
+                intent.putExtras(bundle);
+                view.getContext().startActivity(intent);
             }
         });
         return viewHolder;

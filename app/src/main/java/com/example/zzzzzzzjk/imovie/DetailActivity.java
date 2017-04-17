@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -19,18 +20,14 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ImageView imageView = ((ImageView) findViewById(R.id.detail_image));
-
+        TextView textView = (TextView) findViewById(R.id.detail_text);
         Intent intent = getIntent();
 
-        if (intent != null) {
-            byte [] bis=intent.getByteArrayExtra("bitmap");
-            Bitmap bitmap=BitmapFactory.decodeByteArray(bis, 0, bis.length);
-
-            imageView.setImageBitmap(bitmap);
-        } else {
-            Log.v("DetailActivity", "intent is empty");
-        }
-
+        String name = intent.getStringExtra("name");
+        Bundle bundle=this.getIntent().getExtras();
+        int imgId = bundle.getInt("imgId");
+        imageView.setImageResource(imgId);
+        textView.setText(name);
 
     }
 }
