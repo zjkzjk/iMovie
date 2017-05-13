@@ -1,5 +1,6 @@
 package com.example.zzzzzzzjk.imovie;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 /**
@@ -17,9 +20,11 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     List<Movie> movieList;
+    Context mContext;
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item,parent,false);
+        mContext = parent.getContext();
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.movie_item,parent,false);
         final ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.movieView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -28,9 +33,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 Movie movie = movieList.get(position);
                 Intent intent = new Intent(view.getContext(),DetailActivity.class);
                 intent.putExtra("name",movie.getName());
-                Bundle bundle = new Bundle();
-                bundle.putInt("imgId",movie.getImgId());
-                intent.putExtras(bundle);
+                intent.putExtra("imgId",movie.getImgId());
                 view.getContext().startActivity(intent);
             }
         });
@@ -40,7 +43,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Movie movie = movieList.get(position);
-        holder.imageView.setImageResource(movie.getImgId());
+        Glide.with(mContext).load(movie.getImgId()).into(holder.imageView);
         holder.textView.setText(movie.getName());
     }
 

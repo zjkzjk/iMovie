@@ -5,9 +5,9 @@ package com.example.zzzzzzzjk.imovie;
  */
 
 public class Movie {
-    int imgId;
+    String imgId;
     String name;
-    public Movie(String Name,int ImgId){
+    public Movie(String Name,String ImgId){
         imgId = ImgId;
         name = Name;
     }
@@ -16,7 +16,7 @@ public class Movie {
         return name;
     }
 
-    public int getImgId() {
+    public String getImgId() {
         return imgId;
     }
 }
