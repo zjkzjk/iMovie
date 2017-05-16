@@ -19,6 +19,7 @@ public class ImovieAsyncTaskLoader extends AsyncTaskLoader<List<Movie>> {
     String mUrl;
     public ImovieAsyncTaskLoader(Context context,String url) {
         super(context);
+        mUrl = url;
     }
 
     @Override
@@ -28,12 +29,9 @@ public class ImovieAsyncTaskLoader extends AsyncTaskLoader<List<Movie>> {
 
     @Override
     public List<Movie> loadInBackground() {
-        if (mUrl == null){
-            return null;
-        }
-        List<Movie> movies = new ArrayList<Movie>();
+
         HttpQutils qutils = new HttpQutils();
-        movies.addAll(qutils.fetchMovieData(mUrl));
+        List<Movie> movies = qutils.fetchMovieData(mUrl);
         return movies;
     }
 }

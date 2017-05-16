@@ -25,6 +25,7 @@ public class HttpQutils {
     }
     List<Movie> movies = new ArrayList<Movie>();
     public List<Movie> fetchMovieData(String url){
+        Log.d("url:", url);
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url
                 (url).build();
