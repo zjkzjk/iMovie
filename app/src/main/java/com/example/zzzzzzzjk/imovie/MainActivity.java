@@ -1,96 +1,60 @@
 package com.example.zzzzzzzjk.imovie;
 
+import android.app.LoaderManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.Image;
-import android.nfc.Tag;
+
+import android.app.LoaderManager;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.HeaderViewListAdapter;
-import android.widget.Toast;
+import com.example.zzzzzzzjk.imovie.sync.ImovieAsyncTaskLoader;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
-    List<Movie> movieList = new ArrayList<Movie>();
-
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
+    MovieAdapter adapter;
+    SwipeRefreshLayout refresh;
+    String pop_path="http://api.themoviedb.org/3/movie/popular?language=zh&api_key=3e312b7d4498d5ca3f449a3120adbee0";
+    String top_path="http://api.themoviedb.org/3/movie/top_rated?language=zh&api_key=3e312b7d4498d5ca3f449a3120adbee0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sendHttpURlConnection();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.d("MainActivity","img is " + movieList);
+
+        refresh = (SwipeRefreshLayout) findViewById(R.id.view_refresh);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        GridLayoutManager glm = new GridLayoutManager(this, 2);;
+        GridLayoutManager glm = new GridLayoutManager(MainActivity.this, 2);;
         recyclerView.setLayoutManager(glm);
-        MovieAdapter adapter = new MovieAdapter(movieList);
+        adapter = new MovieAdapter(new ArrayList<Movie>());
         recyclerView.setAdapter(adapter);
 
-    }
-    private void sendHttpURlConnection(){
-        new Thread(new Runnable() {
+
+        // 引用 LoaderManager，以便与 loader 进行交互。
+        LoaderManager loaderManager = getLoaderManager();
+
+        // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
+        // 传递 null。为 LoaderCallbacks 参数（由于
+        // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
+        loaderManager.initLoader(0, null, this);
+
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void run() {
-                try {
-                    OkHttpClient okHttpClient = new OkHttpClient();
-                    Request request = new Request.Builder().url
-                            ("http://api.themoviedb.org/3/movie/popular?language=zh&api_key=3e312b7d4498d5ca3f449a3120adbee0").build();
-                    Response response = okHttpClient.newCall(request).execute();
-                    String responseData = response.body().string();
+            public void onRefresh() {
 
-                    parseJson(responseData);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
-        }).start();
-    }
-    private void parseJson(String JSONData){
-        try{
-            JSONObject jsonObject = new JSONObject(JSONData);
-            JSONArray results = jsonObject.getJSONArray("results");
-            for (int i = 0;i <results.length();i++ ){
-                JSONObject jsonResult = results.getJSONObject(i);
-                String name = jsonResult.getString("title");
-                String img = "https://image.tmdb.org/t/p/original"+jsonResult.getString("backdrop_path");
-                Movie movie = new Movie(name,img);
-                movieList.add(movie);
-            }
+        });
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
-
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
@@ -109,4 +73,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+    @Override
+    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+        Log.d("MainActivity", "1");
+        return new ImovieAsyncTaskLoader(MainActivity.this,pop_path);
+
+    }
+    @Override
+    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
+        adapter.clear();
+        adapter.addAll(data);
+        adapter.notifyDataSetChanged();
+        refresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Movie>> loader) {
+        adapter.clear();
+    }
+
 }

@@ -9,9 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +24,7 @@ import java.util.List;
  */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    List<Movie> movieList;
+    List<Movie> movieList = new ArrayList<>();
     Context mContext;
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
@@ -43,7 +48,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Movie movie = movieList.get(position);
-        Glide.with(mContext).load(movie.getImgId()).into(holder.imageView);
+        Picasso.with(mContext)
+                .load(movie.getImgId())
+                .into(holder.imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+//                        Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(mContext, "Fail", Toast.LENGTH_SHORT).show();
+                    }
+                });
+//        Glide.with(mContext).load(movie.getImgId()).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.imageView);
         holder.textView.setText(movie.getName());
     }
 
@@ -54,6 +72,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public MovieAdapter(List<Movie> movies){
         movieList = movies;
 
+    }
+
+    public void addAll(List<Movie> movies) {
+        movieList = movies;
+    }
+
+    public void clear() {
+        movieList.clear();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
