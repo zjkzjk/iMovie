@@ -24,6 +24,7 @@ public class HttpQutils {
 
     }
     List<Movie> movies = new ArrayList<Movie>();
+    //OKHttp 连接网络
     public List<Movie> fetchMovieData(String url){
         Log.d("url:", url);
         OkHttpClient okHttpClient = new OkHttpClient();

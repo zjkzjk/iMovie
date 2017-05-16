@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //recyclerview adapter定义
         refresh = (SwipeRefreshLayout) findViewById(R.id.view_refresh);
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
@@ -54,12 +54,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         adapter = new MovieAdapter(new ArrayList<Movie>());
         recyclerView.setAdapter(adapter);
-
-
+        //网络判定，当没有网络时显示为空页面
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
-
         // Get details on the currently active default data network
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mEmptyStateTextView.setText("无网络连接");
             // Update empty state with no connection error message
         }
-
+        //下拉刷新
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -117,12 +115,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
 
     }
+    // AsyncTaskLoader 接口方法
+    // 创建接口（后台线程）
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
         Log.d("MainActivity", "1");
         return new ImovieAsyncTaskLoader(MainActivity.this,path[0]);
 
     }
+    //当后台线程加载完毕执行，执行在主线程
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
         adapter.clear();
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         refresh.setRefreshing(false);
     }
-
+    //Loader重置
     @Override
     public void onLoaderReset(Loader<List<Movie>> loader) {
         adapter.clear();
