@@ -3,11 +3,7 @@ package com.example.zzzzzzzjk.imovie.sync;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.util.Log;
-
 import com.example.zzzzzzzjk.imovie.Movie;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

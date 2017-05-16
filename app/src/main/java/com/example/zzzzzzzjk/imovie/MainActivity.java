@@ -3,9 +3,6 @@ package com.example.zzzzzzzjk.imovie;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
-
-import android.app.LoaderManager;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -119,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     // 创建接口（后台线程）
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
-        Log.d("MainActivity", "1");
         return new ImovieAsyncTaskLoader(MainActivity.this,path[0]);
 
     }
@@ -136,13 +132,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         adapter.addAll(data);
         adapter.notifyDataSetChanged();
-        if (data == null)
-        {
-            recyclerView.setVisibility(View.GONE);
-        }
-        else {
-            mEmptyStateTextView.setVisibility(View.GONE);
-        }
         refresh.setRefreshing(false);
     }
     //Loader重置
