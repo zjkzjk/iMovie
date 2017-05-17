@@ -2,7 +2,8 @@ package com.example.zzzzzzzjk.imovie;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -37,11 +35,27 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         viewHolder.movieView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                int position = viewHolder.getAdapterPosition();
-                Movie movie = movieList.get(position);
-                Intent intent = new Intent(view.getContext(),DetailActivity.class);
-                intent.putExtra("id",movie.getId());
-                view.getContext().startActivity(intent);
+                //网络判定，当没有网络时显示为空页面
+                // Get a reference to the ConnectivityManager to check state of network connectivity
+                ConnectivityManager connMgr = (ConnectivityManager)
+                        mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+                // Get details on the currently active default data network
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+                boolean isConnected = networkInfo != null &&
+                        networkInfo.isConnectedOrConnecting();
+
+                // If there is a network connection, fetch data
+                if (isConnected == true) {
+                    int position = viewHolder.getAdapterPosition();
+                    Movie movie = movieList.get(position);
+                    Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                    intent.putExtra("id", movie.getId());
+                    view.getContext().startActivity(intent);
+                }
+                else {
+                    Toast.makeText(mContext,R.string.internet_error,Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -53,12 +67,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         Movie movie = movieList.get(position);
         Picasso.with(mContext)
                 .load(movie.getImgId())
+                .resize(500,0)
+                .placeholder(R.drawable.error)
+                .error(R.drawable.error)
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {
 //                        Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onError() {
                         Toast.makeText(mContext, "Fail", Toast.LENGTH_SHORT).show();

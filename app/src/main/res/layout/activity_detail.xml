@@ -13,10 +13,11 @@
     <TextView
         android:layout_width="match_parent"
         android:gravity="center_vertical"
-        android:background="#159588"
+        android:background="@color/detail_title_bg"
         android:paddingLeft="20dp"
-        android:textColor="#fff"
-        android:textSize="30sp"
+        android:textColor="@color/white"
+        tools:text="Zzzzzzzjk"
+        android:textSize="@dimen/detail_title_size"
         android:layout_height="100dp"
         android:id="@+id/detail_title"/>
     <LinearLayout
@@ -36,18 +37,18 @@
             android:layout_height="match_parent">
             <TextView
                 android:layout_width="wrap_content"
-
+                tools:text="1979"
                 android:id="@+id/detail_year"
                 android:paddingLeft="10dp"
                 android:paddingTop="20dp"
-                android:textSize="25sp"
+                android:textSize="@dimen/detail_year_size"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/detail_vote"
                 android:paddingLeft="10dp"
+                tools:text="8.6"
                 android:paddingTop="20dp"
-                android:textSize="20sp"
-
+                android:textSize="@dimen/detail_airticl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -59,9 +60,10 @@
             android:id="@+id/detail_airticl"
             android:layout_width="match_parent"
             android:paddingTop="30dp"
+            tools:text="zzzzzzzzjk"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textSize="20sp"
+            android:textSize="@dimen/detail_airticl"
             android:layout_height="match_parent" />
     </LinearLayout>
 </ScrollView>

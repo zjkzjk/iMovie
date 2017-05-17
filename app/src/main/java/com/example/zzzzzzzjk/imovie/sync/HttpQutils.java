@@ -52,7 +52,7 @@ public class HttpQutils {
 //                    Log.d("MainActivity","id="+id);
                 String name = jsonResult.getString("title");
 //                    Log.d("MainActivity","name="+name);
-                String img = "https://image.tmdb.org/t/p/w500"+jsonResult.getString("backdrop_path");
+                String img = "https://image.tmdb.org/t/p/w185"+jsonResult.getString("backdrop_path");
 //                    Log.d("MainActivity","img="+img);
                 Movie movie = new Movie(name,img,id);
                 movies.add(movie);

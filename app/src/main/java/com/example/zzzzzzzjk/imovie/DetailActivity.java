@@ -21,9 +21,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<String>>{
-    TextView tv_title,tv_airticl,tv_year,tv_vote;
-    ImageView imageView;
+    @BindView(R.id.detail_img) ImageView imageView;
+    @BindView(R.id.detail_title) TextView tv_title;
+    @BindView(R.id.detail_vote) TextView tv_vote;
+    @BindView(R.id.detail_airticl) TextView tv_airticl;
+    @BindView(R.id.detail_year) TextView tv_year;
+
     int intentID;
     String Uri = "http://api.themoviedb.org/3/movie/";
     String select1 = "popular";
@@ -35,12 +42,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        imageView = ((ImageView) findViewById(R.id.detail_img));
-        tv_title = (TextView) findViewById(R.id.detail_title);
-        tv_airticl = (TextView) findViewById(R.id.detail_airticl);
-        tv_year = (TextView) findViewById(R.id.detail_year);
-        tv_vote = (TextView) findViewById(R.id.detail_vote);
+        //使用butter knife绑定控件，省去冗余代码
+        ButterKnife.bind(this);
         Intent intent = getIntent();
         intentID = intent.getIntExtra("id",0);
         // Get a reference to the LoaderManager, in order to interact with loaders.

@@ -7,32 +7,34 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import butterknife.ButterKnife;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.example.zzzzzzzjk.imovie.sync.ImovieAsyncTaskLoader;
-
 import java.util.ArrayList;
 import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
-    MovieAdapter adapter;
-    RecyclerView recyclerView;
-    SwipeRefreshLayout refresh;
-    boolean isConnected;
-    TextView mEmptyStateTextView;
+
+    @BindView(R.id.view_refresh) SwipeRefreshLayout refresh;
+    @BindView(R.id.recycler) RecyclerView recyclerView;
+    @BindView(R.id.empty_view) TextView mEmptyStateTextView;
+
+    private MovieAdapter adapter;
+    private boolean isConnected;
+
     String Uri = "http://api.themoviedb.org/3/movie/";
     String select1 = "popular";
     String select2 = "top_rated";
@@ -51,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //使用butter knife绑定控件，省去冗余代码
+        ButterKnife.bind(this);
 
         //recyclerview adapter定义
-        refresh = (SwipeRefreshLayout) findViewById(R.id.view_refresh);
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+
         GridLayoutManager glm = new GridLayoutManager(MainActivity.this, 2);;
         recyclerView.setLayoutManager(glm);
 

@@ -5,9 +5,9 @@ package com.example.zzzzzzzjk.imovie;
  */
 
 public class Movie {
-    int id;
-    String imgId;
-    String name;
+    private int id;
+    private String imgId;
+    private String name;
     public Movie(String Name,String ImgId,int Id){
         imgId = ImgId;
         id = Id;

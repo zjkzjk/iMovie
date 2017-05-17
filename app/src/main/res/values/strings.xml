@@ -24,5 +24,6 @@
     <string name="title_activity_setting">Setting</string>
 
     <string name="title_activity_detail">Detail</string>
+    <string name="internet_error">抱歉，当前无网络连接</string>
 
 </resources>
