@@ -6,6 +6,8 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +35,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
         imageView = ((ImageView) findViewById(R.id.detail_img));
         tv_title = (TextView) findViewById(R.id.detail_title);
         tv_airticl = (TextView) findViewById(R.id.detail_airticl);
@@ -52,8 +55,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public android.content.Loader<List<String>> onCreateLoader(int id, Bundle args) {
-        Log.d("DetailActivity", "1");
-        return new DetailAsyncTaskLoader(this,path[0],intentID);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DetailActivity.this);
+        String select_path = prefs.getString(getString(R.string.pref_units_key),getString(R.string.pref_units_popular));
+        if(select_path.equals("popular")) {
+            return new DetailAsyncTaskLoader(this, path[0], intentID);
+        }else {
+            return new DetailAsyncTaskLoader(this, path[1], intentID);
+        }
     }
 
     @Override
@@ -72,9 +80,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     }
                 });
         tv_airticl.setText(data.get(2));
-        tv_vote.setText(data.get(4));
         tv_year.setText(data.get(3));
+        tv_vote.setText(data.get(4));
     }
+
 
     @Override
     public void onLoaderReset(Loader<List<String>> loader) {

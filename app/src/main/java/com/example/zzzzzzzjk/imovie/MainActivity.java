@@ -4,8 +4,11 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +41,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     String[] path = {Uri+select1+language+BuildConfig.API_KEY,Uri+select2+language+BuildConfig.API_KEY};
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        loaderManager.restartLoader(0, null, this);
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -51,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         adapter = new MovieAdapter(new ArrayList<Movie>());
         recyclerView.setAdapter(adapter);
+
         //网络判定，当没有网络时显示为空页面
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -76,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mEmptyStateTextView.setText("无网络连接");
             // Update empty state with no connection error message
         }
+
         //下拉刷新
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -94,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
     }
+    public void updateMovie(){
+
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
@@ -107,7 +122,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             startActivity(new Intent(this,SettingActivity.class));
             return true;
         }else if (getId == R.id.refresh){
-
+            if (isConnected == false){
+//                    recyclerView.setVisibility(View.GONE);
+                mEmptyStateTextView.setText("无网络连接");
+                refresh.setRefreshing(false);
+            }
+            else {
+//                    mEmptyStateTextView.setVisibility(View.GONE);
+                loaderManager.restartLoader(0,null,MainActivity.this);
+            }
         }
         return super.onOptionsItemSelected(item);
 
@@ -116,7 +139,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     // 创建接口（后台线程）
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
-        return new ImovieAsyncTaskLoader(MainActivity.this,path[0]);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String select_path = prefs.getString(getString(R.string.pref_units_key),getString(R.string.pref_units_popular));
+        if(select_path.equals("popular")){
+            return new ImovieAsyncTaskLoader(MainActivity.this,path[0]);
+        }else {
+            return new ImovieAsyncTaskLoader(MainActivity.this,path[1]);
+        }
+
 
     }
     //当后台线程加载完毕执行，执行在主线程

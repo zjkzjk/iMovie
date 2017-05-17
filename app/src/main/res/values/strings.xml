@@ -3,6 +3,8 @@
     <string name="setting">Settings</string>
     <string name="refresh">Refresh</string>
     <string name="pref_units_label">Sort by</string>
+    <string name="main_bar">热门电影</string>
+    <string name="detail_bar">电影详情</string>
 
     <!-- Label for metric option in temperature unit preference [CHAR LIMIT=25] -->
     <string name="pref_units_label_popular">The most popular</string>
