@@ -1,5 +1,6 @@
 package com.example.zzzzzzzjk.imovie.sync;
 
+import android.os.Parcel;
 import android.util.Log;
 
 import com.example.zzzzzzzjk.imovie.Movie;
@@ -54,7 +55,13 @@ public class HttpQutils {
 //                    Log.d("MainActivity","name="+name);
                 String img = "https://image.tmdb.org/t/p/w185"+jsonResult.getString("backdrop_path");
 //                    Log.d("MainActivity","img="+img);
-                Movie movie = new Movie(name,img,id);
+                String title = jsonResult.getString("original_title");
+                //  Log.d("MainActivity","original_title="+title);
+                String airticl = jsonResult.getString("overview");
+
+                String date = jsonResult.getString("release_date");
+                String vote = jsonResult.getString("vote_average");
+                Movie movie = new Movie(id,img,name,title,vote,date,airticl);
                 movies.add(movie);
             }
 

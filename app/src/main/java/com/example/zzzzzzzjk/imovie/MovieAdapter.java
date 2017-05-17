@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,27 +36,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         viewHolder.movieView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //网络判定，当没有网络时显示为空页面
-                // Get a reference to the ConnectivityManager to check state of network connectivity
-                ConnectivityManager connMgr = (ConnectivityManager)
-                        mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-                // Get details on the currently active default data network
-                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-                boolean isConnected = networkInfo != null &&
-                        networkInfo.isConnectedOrConnecting();
-
-                // If there is a network connection, fetch data
-                if (isConnected == true) {
-                    int position = viewHolder.getAdapterPosition();
-                    Movie movie = movieList.get(position);
-                    Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                    intent.putExtra("id", movie.getId());
-                    view.getContext().startActivity(intent);
-                }
-                else {
-                    Toast.makeText(mContext,R.string.internet_error,Toast.LENGTH_SHORT).show();
-                }
+                int position = viewHolder.getAdapterPosition();
+                Movie movie = movieList.get(position);
+                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                intent.putExtra("movie", movie);
+                Log.d("ADAPTER:", movie.getTv_title());
+                view.getContext().startActivity(intent);
             }
         });
 
