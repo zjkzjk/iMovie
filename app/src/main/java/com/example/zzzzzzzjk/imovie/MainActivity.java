@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
             // Otherwise, display error
             // First, hide loading indicator so error message will be visible
-            mEmptyStateTextView.setText("无网络连接");
+            mEmptyStateTextView.setText(R.string.internet_error);
             // Update empty state with no connection error message
         }
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (isConnected == false) {
                     recyclerView.setVisibility(View.GONE);
                     mEmptyStateTextView.setVisibility(View.VISIBLE);
-                    mEmptyStateTextView.setText("无网络连接");
+                    mEmptyStateTextView.setText(R.string.internet_error);
                     refresh.setRefreshing(false);
                 } else {
                     mEmptyStateTextView.setVisibility(View.GONE);
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             if (isConnected == false) {
                 recyclerView.setVisibility(View.GONE);
                 mEmptyStateTextView.setVisibility(View.VISIBLE);
-                mEmptyStateTextView.setText("无网络连接");
+                mEmptyStateTextView.setText(R.string.internet_error);
                 refresh.setRefreshing(false);
             } else {
                 mEmptyStateTextView.setVisibility(View.GONE);
