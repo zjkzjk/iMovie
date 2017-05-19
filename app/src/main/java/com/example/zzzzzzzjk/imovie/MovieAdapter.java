@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -25,6 +26,7 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     List<Movie> movieList = new ArrayList<>();
     Context mContext;
+
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         mContext = parent.getContext();
@@ -33,7 +35,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         view = LayoutInflater.from(mContext).inflate(R.layout.movie_item, parent, false);
 
         final ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.movieView.setOnClickListener(new View.OnClickListener(){
+        viewHolder.movieView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
@@ -53,7 +55,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         Movie movie = movieList.get(position);
         Picasso.with(mContext)
                 .load(movie.getImgId())
-                .resize(500,0)
+                .resize(500, 0)
                 .placeholder(R.drawable.error)
                 .error(R.drawable.error)
                 .into(holder.imageView, new Callback() {
@@ -61,6 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                     public void onSuccess() {
 //                        Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
                     }
+
                     @Override
                     public void onError() {
                         Toast.makeText(mContext, "Fail", Toast.LENGTH_SHORT).show();
@@ -74,7 +77,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public int getItemCount() {
         return movieList.size();
     }
-    public MovieAdapter(List<Movie> movies){
+
+    public MovieAdapter(List<Movie> movies) {
         movieList = movies;
 
     }
@@ -91,6 +95,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         View movieView;
         ImageView imageView;
         TextView textView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             movieView = itemView;

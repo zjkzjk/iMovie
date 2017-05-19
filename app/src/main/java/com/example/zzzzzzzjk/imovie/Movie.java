@@ -9,7 +9,7 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
     private int id;
-    private String imgId,name,tv_title,tv_vote,tv_year,tv_airticl;
+    private String imgId, name, tv_title, tv_vote, tv_year, tv_airticl;
 
     public Movie(Parcel in) {
         id = in.readInt();

@@ -3,4 +3,12 @@
     <dimen name="detail_title_size">30sp</dimen>
     <dimen name="detail_year_size">25sp</dimen>
     <dimen name="detail_airticl">20sp</dimen>
+    <dimen name="img_text">12sp</dimen>
+    <dimen name="border">5dp</dimen>
+    <dimen name="img_text_padding">3dp</dimen>
+    <dimen name="detail_title_height">100dp</dimen>
+    <dimen name="detail_padding_20">20dp</dimen>
+    <dimen name="detail_padding_18">18dp</dimen>
+    <dimen name="detail_padding_30">30dp</dimen>
+    <dimen name="detail_padding_10">10dp</dimen>
 </resources>

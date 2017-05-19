@@ -3,7 +3,10 @@ package com.example.zzzzzzzjk.imovie.sync;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+
 import com.example.zzzzzzzjk.imovie.Movie;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,11 +14,14 @@ import java.util.List;
  */
 
 public class ImovieAsyncTaskLoader extends AsyncTaskLoader<List<Movie>> {
-
     String mUrl;
-    public ImovieAsyncTaskLoader(Context context,String url) {
+    boolean iscon;
+
+    public ImovieAsyncTaskLoader(Context context, String url, boolean isConnected) {
         super(context);
         mUrl = url;
+        iscon = isConnected;
+
     }
 
     @Override
@@ -25,9 +31,11 @@ public class ImovieAsyncTaskLoader extends AsyncTaskLoader<List<Movie>> {
 
     @Override
     public List<Movie> loadInBackground() {
-
-        HttpQutils qutils = new HttpQutils();
-        List<Movie> movies = qutils.fetchMovieData(mUrl);
+        List<Movie> movies = new ArrayList<Movie>();
+        if (iscon == true) {
+            HttpQutils qutils = new HttpQutils();
+            movies = qutils.fetchMovieData(mUrl);
+        }
         return movies;
     }
 }

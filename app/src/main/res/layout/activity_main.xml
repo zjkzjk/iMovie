@@ -4,34 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-        <android.support.v4.widget.SwipeRefreshLayout
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/view_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:id="@+id/view_refresh"
             android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                        <TextView
+            <TextView
 
-                            android:layout_centerInParent = "true"
-                            android:id="@+id/empty_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"/>
-                        <android.support.v7.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            tools:context="com.example.zzzzzzzjk.imovie.MainActivity"
-                            android:numColumns="auto_fit"
-                            android:id="@+id/recycler"
-                            android:divider="@null"
-                            android:verticalSpacing="10dp"
-                            android:horizontalSpacing="10dp"
-                            android:stretchMode="columnWidth"
-                            android:gravity="center_horizontal">
-                        </android.support.v7.widget.RecyclerView>
+                android:id="@+id/empty_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center" />
 
-                </RelativeLayout>
-        </android.support.v4.widget.SwipeRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:gravity="center_horizontal"
+                android:horizontalSpacing="@dimen/detail_padding_10"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/detail_padding_10"
+                tools:context="com.example.zzzzzzzjk.imovie.MainActivity"></android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
